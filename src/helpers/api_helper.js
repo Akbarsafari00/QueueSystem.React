@@ -1,5 +1,7 @@
 import axios from "axios";
 import { api } from "../config";
+import * as url from "./url_helper";
+import {GET_AUTH_PROFILE} from "./url_helper";
 
 // default
 axios.defaults.baseURL = api.API_URL;
@@ -74,6 +76,7 @@ class APIClient {
    * post given data to url
    */
   create = (url, data) => {
+   
     return axios.post(url, data);
   };
   /**
@@ -93,8 +96,8 @@ class APIClient {
     return axios.delete(url, { ...config });
   };
 }
-const getLoggedinUser = () => {
-  const user = sessionStorage.getItem("authUser");
+const getAccessToken = () => {
+  const user = sessionStorage.getItem("accessToken");
   if (!user) {
     return null;
   } else {
@@ -102,4 +105,10 @@ const getLoggedinUser = () => {
   }
 };
 
-export { APIClient, setAuthorization, getLoggedinUser };
+export { APIClient, setAuthorization, getAccessToken };
+
+
+
+export const postJwtLogin = data => api.create(url.POST_AUTH_LOGIN, data);
+
+export const  getAuthProfile = () => api.get(url.GET_AUTH_PROFILE)

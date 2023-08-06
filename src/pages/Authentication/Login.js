@@ -56,11 +56,11 @@ const Login = (props) => {
         enableReinitialize: true,
 
         initialValues: {
-            email: userLogin.email || "admin@themesbrand.com" || '',
-            password: userLogin.password || "123456" || '',
+            username: userLogin.username || "akbarsafari00" || '',
+            password: userLogin.password || "Aa@13567975" || '',
         },
         validationSchema: Yup.object({
-            email: Yup.string().required("Please Enter Your Email"),
+            username: Yup.string().required("Please Enter Your Username"),
             password: Yup.string().required("Please Enter Your Password"),
         }),
         onSubmit: (values) => {
@@ -126,21 +126,21 @@ const Login = (props) => {
                                                 action="#">
 
                                                 <div className="mb-3">
-                                                    <Label htmlFor="email" className="form-label">Email</Label>
+                                                    <Label htmlFor="email" className="form-label">Username</Label>
                                                     <Input
-                                                        name="email"
+                                                        name="username"
                                                         className="form-control"
                                                         placeholder="Enter email"
-                                                        type="email"
+                                                        type="text"
                                                         onChange={validation.handleChange}
                                                         onBlur={validation.handleBlur}
-                                                        value={validation.values.email || ""}
+                                                        value={validation.values.username || ""}
                                                         invalid={
-                                                            validation.touched.email && validation.errors.email ? true : false
+                                                            validation.touched.username && validation.errors.username ? true : false
                                                         }
                                                     />
-                                                    {validation.touched.email && validation.errors.email ? (
-                                                        <FormFeedback type="invalid">{validation.errors.email}</FormFeedback>
+                                                    {validation.touched.username && validation.errors.username ? (
+                                                        <FormFeedback type="invalid">{validation.errors.username}</FormFeedback>
                                                     ) : null}
                                                 </div>
 
