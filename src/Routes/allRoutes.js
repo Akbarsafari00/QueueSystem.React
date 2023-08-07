@@ -1,6 +1,5 @@
 import React from "react";
-import { Navigate } from "react-router-dom";
-
+import {Navigate} from "react-router-dom";
 
 
 //AuthenticationInner pages
@@ -25,54 +24,63 @@ import Cover404 from '../pages/AuthenticationInner/Errors/Cover404';
 import Alt404 from '../pages/AuthenticationInner/Errors/Alt404';
 import Error500 from '../pages/AuthenticationInner/Errors/Error500';
 
-import Dashboard1 from '../pages/Dashboards/dashboard1';
-
+import DashboardQueue from '../pages/Dashboards/dashboard1';
 
 
 //login
 import Login from "../pages/Authentication/Login";
 import Logout from "../pages/Authentication/Logout";
+import DepartmentPage from "../pages/Definitions/Departments/DepartmentPage";
 
 
 // Landing Index
 
 const authProtectedRoutes = [
-  // eslint-disable-next-line react/display-name
-  { path: "/dashboard", component: <Dashboard1 /> },
-  {
-    path: "/",
-    exact: true,
-    component: <Navigate to="/dashboard" />,
-  },
-  { path: "*", component: <Navigate to="/dashboard" /> },
+    // eslint-disable-next-line react/display-name
+    {path: "/dashboard-queue", component: <DashboardQueue/>},
+    {
+        path: "/dashboard",
+        exact: true,
+        component: <Navigate to="/dashboard-queue"/>,
+    },
+    {
+        path: "/definitions/departments",
+        component: <DepartmentPage/>,
+    },
+    {
+        path: "/",
+        exact: true,
+        component: <Navigate to="/dashboard"/>,
+    },
+    {path: "*", component: <Navigate to="/dashboard"/>},
 ];
 
 const publicRoutes = [
-  // Authentication Page
-  { path: "/logout", component: <Logout /> },
-  { path: "/login", component: <Login /> },
+    // Authentication Page
+    {path: "/logout", component: <Logout/>},
+    {path: "/login", component: <Login/>},
 
-  //AuthenticationInner pages
-  { path: "/auth-signin-basic", component: <BasicSignIn /> },
-  { path: "/auth-signin-cover", component: <CoverSignIn /> },
-  { path: "/auth-signup-basic", component: <BasicSignUp /> },
-  { path: "/auth-signup-cover", component: <CoverSignUp /> },
-  { path: "/auth-pass-reset-basic", component: <BasicPasswReset /> },
-  { path: "/auth-pass-reset-cover", component: <CoverPasswReset /> },
-  { path: "/auth-lockscreen-basic", component: <BasicLockScreen /> },
-  { path: "/auth-lockscreen-cover", component: <CoverLockScreen /> },
-  { path: "/auth-logout-basic", component: <BasicLogout /> },
-  { path: "/auth-logout-cover", component: <CoverLogout /> },
-  { path: "/auth-success-msg-basic", component: <BasicSuccessMsg /> },
-  { path: "/auth-success-msg-cover", component: <CoverSuccessMsg /> },
-  { path: "/auth-twostep-basic", component: <BasicTwosVerify /> },
-  { path: "/auth-twostep-cover", component: <CoverTwosVerify /> },
-  { path: "/auth-404-basic", component: <Basic404 /> },
-  { path: "/auth-404-cover", component: <Cover404 /> },
-  { path: "/auth-404-alt", component: <Alt404 /> },
-  { path: "/auth-500", component: <Error500 /> },
+    //AuthenticationInner pages
+    {path: "/auth-signin-basic", component: <BasicSignIn/>},
+    {path: "/auth-signin-cover", component: <CoverSignIn/>},
+    {path: "/auth-signup-basic", component: <BasicSignUp/>},
+    {path: "/auth-signup-cover", component: <CoverSignUp/>},
+    {path: "/auth-pass-reset-basic", component: <BasicPasswReset/>},
+    {path: "/auth-pass-reset-cover", component: <CoverPasswReset/>},
+    {path: "/auth-lockscreen-basic", component: <BasicLockScreen/>},
+    {path: "/auth-lockscreen-cover", component: <CoverLockScreen/>},
+    {path: "/auth-logout-basic", component: <BasicLogout/>},
+    {path: "/auth-logout-cover", component: <CoverLogout/>},
+    {path: "/auth-success-msg-basic", component: <BasicSuccessMsg/>},
+    {path: "/auth-success-msg-cover", component: <CoverSuccessMsg/>},
+    {path: "/auth-twostep-basic", component: <BasicTwosVerify/>},
+    {path: "/auth-twostep-cover", component: <CoverTwosVerify/>},
+    {path: "/auth-404-basic", component: <Basic404/>},
+    {path: "/auth-404-cover", component: <Cover404/>},
+    {path: "/auth-404-alt", component: <Alt404/>},
+    {path: "/auth-500", component: <Error500/>},
 
 
 ];
 
-export { authProtectedRoutes, publicRoutes };
+export {authProtectedRoutes, publicRoutes};

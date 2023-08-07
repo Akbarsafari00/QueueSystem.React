@@ -230,3 +230,7 @@ export const GET_API_KEY = "/api-key";
 // Auth
 export const POST_AUTH_LOGIN = "/Authentication/Login";
 export const GET_AUTH_PROFILE = "/Authentication/Profile";
+
+
+
+export const GET_DEPARTMENT_FILTER = "/Department/Filter";

@@ -23,9 +23,15 @@ const Dashboard1 = () => {
     <React.Fragment>
     <div className="page-content">
         <Container fluid>  
-            <BreadCrumb title="CRM" pageTitle="Dashboards" />
+            <BreadCrumb title="داشبورد" pageTitle="داشبورد نوبتدهی" />
             <Row>
-            <h1>Dashboard 1</h1>
+                <Col md={12}>
+                    <Card>
+                        <CardBody>
+                            <h1>داشبورد نوبتدهی</h1>
+                        </CardBody>
+                    </Card>
+                </Col>
             </Row>
         </Container>
     </div>

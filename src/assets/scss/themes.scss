@@ -12,6 +12,8 @@
 @import "../scss/rtl/pages-rtl";
 
 
+@import "../fonts/vazirmatn/Vazirmatn-font-face.css";
+
 //Rigthsidebar offcanvas
 .offcanvas-header-dark {
   .btn-close {
@@ -20,6 +22,7 @@
 }
 
 body {
+  font-family: Vazirmatn, serif;
   * {
     outline: none;
   }

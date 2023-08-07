@@ -13,7 +13,7 @@ export const loginUser = (user, history) => async (dispatch) => {
 
         const data = await response;
         console.log(data)
-        
+
         if (data) {
             sessionStorage.setItem("accessToken", JSON.stringify(data.accessToken));
             dispatch(loginSuccess(data));
@@ -26,14 +26,8 @@ export const loginUser = (user, history) => async (dispatch) => {
 
 export const logoutUser = () => async (dispatch) => {
     try {
-        sessionStorage.removeItem("authUser");
-        let fireBaseBackend = getFirebaseBackend();
-        if (process.env.REACT_APP_DEFAULTAUTH === "firebase") {
-            const response = fireBaseBackend.logout;
-            dispatch(logoutUserSuccess(response));
-        } else {
-            dispatch(logoutUserSuccess(true));
-        }
+        sessionStorage.removeItem("accessToken");
+        dispatch(logoutUserSuccess(true));
 
     } catch (error) {
         dispatch(apiError(error));

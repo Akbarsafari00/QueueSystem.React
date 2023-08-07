@@ -1,7 +1,7 @@
 import axios from "axios";
 import { api } from "../config";
 import * as url from "./url_helper";
-import {GET_AUTH_PROFILE} from "./url_helper";
+import {GET_AUTH_PROFILE, GET_DEPARTMENT_FILTER} from "./url_helper";
 
 // default
 axios.defaults.baseURL = api.API_URL;
@@ -113,3 +113,11 @@ const apiClient = new APIClient();
 export const postJwtLogin = data => apiClient.create(url.POST_AUTH_LOGIN, data);
 
 export const  getAuthProfile = () => apiClient.get(url.GET_AUTH_PROFILE)
+
+
+
+export const  getDepartmentsFilter = () => apiClient.get(`/Department/Filter`)
+export const  getDepartmentDetail = (id) => apiClient.get(`/Department/${id}/Detail`)
+export const  postDepartmentCreate = (data) => apiClient.create(`/Department/Create`,data)
+export const  putDepartmentUpdate = (data) => apiClient.put(`/Department/Update`,data)
+export const  deleteDepartmentDelete = (id) => apiClient.delete(`/Department/${id}/Delete`)
