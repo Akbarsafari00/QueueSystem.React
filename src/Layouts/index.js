@@ -6,7 +6,6 @@ import withRouter from '../Components/Common/withRouter';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import Footer from './Footer';
-import RightSidebar from '../Components/Common/RightSidebar';
 
 //import actions
 import {
@@ -19,7 +18,8 @@ import {
     changeLeftsidebarSizeType,
     changeLeftsidebarViewType,
     changeSidebarImageType,
-    changeSidebarVisibility
+    changeSidebarVisibility,
+    getProfile
 } from "../slices/thunks";
 
 //redux
@@ -29,6 +29,8 @@ import { createSelector } from 'reselect';
 const Layout = (props) => {
     const [headerClass, setHeaderClass] = useState("");
     const dispatch = useDispatch();
+
+    
 
     const selectLayoutState = (state) => state.Layout;
     const selectLayoutProperties = createSelector(
@@ -113,7 +115,11 @@ const Layout = (props) => {
     // class add remove in header 
     useEffect(() => {
         window.addEventListener("scroll", scrollNavigation, true);
+        
     });
+
+ 
+
 
     function scrollNavigation() {
         var scrollup = document.documentElement.scrollTop;
@@ -147,7 +153,6 @@ const Layout = (props) => {
                     <Footer />
                 </div>
             </div>
-            <RightSidebar />
         </React.Fragment>
 
     );
