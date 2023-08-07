@@ -12,8 +12,6 @@ import ProfileReducer from "./auth/profile/reducer";
 const rootReducer = combineReducers({
     Layout: LayoutReducer,
     Login: LoginReducer,
-    Account: AccountReducer,
-    ForgetPassword: ForgetPasswordReducer,
     Profile: ProfileReducer,
 });
 

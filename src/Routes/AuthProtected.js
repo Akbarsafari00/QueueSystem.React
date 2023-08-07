@@ -1,46 +1,49 @@
-import React, {useEffect} from "react";
-import {Navigate, Route} from "react-router-dom";
-import {setAuthorization} from "../helpers/api_helper";
-import {useDispatch} from "react-redux";
+import React, { useEffect } from "react";
+import { Navigate, Route } from "react-router-dom";
+import { setAuthorization } from "../helpers/api_helper";
+import { useDispatch } from "react-redux";
 
-import {useProfile} from "../Components/Hooks/UserHooks";
+import { useAuth } from "../Components/Hooks/UserHooks";
 
-import {logoutUser} from "../slices/auth/login/thunk";
+import { logoutUser } from "../slices/auth/login/thunk";
 
 const AuthProtected = (props) => {
-    const dispatch = useDispatch();
-    const {token} = useProfile();
+  const dispatch = useDispatch();
+  const { accessToken } = useAuth();
 
-    useEffect(() => {
-        if (token) {
-            setAuthorization(token);
-        } else {
-            dispatch(logoutUser());
-        }
-    }, [token, dispatch]);
+  useEffect(() => {
+    if (!accessToken) {
+      dispatch(logoutUser());
+    }
+  }, [accessToken, dispatch]);
 
-    /*
+  /*
       Navigate is un-auth access protected routes via url
       */
 
-    if (!token) {
-        return (
-            <Navigate to={{pathname: "/login", state: {from: props.location}}}/>
-        );
-    }
-
-    return <>{props.children}</>;
-};
-
-const AccessRoute = ({component: Component, ...rest}) => {
+  if (!accessToken) {
     return (
-        <Route
-            {...rest}
-            render={props => {
-                return (<> <Component {...props} /> </>);
-            }}
-        />
+      <Navigate to={{ pathname: "/login", state: { from: props.location } }} />
     );
+  }
+
+  return <>{props.children}</>;
 };
 
-export {AuthProtected, AccessRoute};
+const AccessRoute = ({ component: Component, ...rest }) => {
+  return (
+    <Route
+      {...rest}
+      render={(props) => {
+        return (
+          <>
+            {" "}
+            <Component {...props} />{" "}
+          </>
+        );
+      }}
+    />
+  );
+};
+
+export { AuthProtected, AccessRoute };

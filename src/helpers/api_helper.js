@@ -108,7 +108,8 @@ const getAccessToken = () => {
 export { APIClient, setAuthorization, getAccessToken };
 
 
+const apiClient = new APIClient();
 
-export const postJwtLogin = data => api.create(url.POST_AUTH_LOGIN, data);
+export const postJwtLogin = data => apiClient.create(url.POST_AUTH_LOGIN, data);
 
-export const  getAuthProfile = () => api.get(url.GET_AUTH_PROFILE)
+export const  getAuthProfile = () => apiClient.get(url.GET_AUTH_PROFILE)

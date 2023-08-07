@@ -1,9 +1,18 @@
 import { useEffect, useState } from "react";
-import { getAccessToken } from "../../helpers/api_helper";
+import { getAccessToken, setAuthorization } from "../../helpers/api_helper";
+import { useDispatch } from "react-redux";
+import { getProfile } from "../../slices/thunks";
 
-const useProfile = () => {
+const useAuth = () => {
   const accessToken = getAccessToken();
+
+  setAuthorization(accessToken);
+
+  var dispatch = useDispatch();
+
+  dispatch(getProfile());
+
   return { accessToken };
 };
 
-export { useProfile };
+export { useAuth };

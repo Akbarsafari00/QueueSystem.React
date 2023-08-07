@@ -15,7 +15,7 @@ export const loginUser = (user, history) => async (dispatch) => {
         console.log(data)
         
         if (data) {
-            sessionStorage.setItem("authUser", JSON.stringify(data.accessToken));
+            sessionStorage.setItem("accessToken", JSON.stringify(data.accessToken));
             dispatch(loginSuccess(data));
             history('/dashboard')
         }
