@@ -11,7 +11,7 @@ import {
 import {reset} from "list.js";
 
 
-export const getDepartmentsFilter = () => async (dispatch) => {
+export const filterDepartments = () => async (dispatch) => {
     try {
         let response;
 
