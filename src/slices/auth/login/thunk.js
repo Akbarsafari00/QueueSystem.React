@@ -23,7 +23,13 @@ export const loginUser = (user, history) => async (dispatch) => {
         dispatch(apiError(error));
     }
 };
-
+export const setUserLoggedIn = (accessToken) => async (dispatch) => {
+    try {
+        dispatch(loginSuccess({accessToken}));
+    } catch (error) {
+        dispatch(apiError(error));
+    }
+};
 export const logoutUser = () => async (dispatch) => {
     try {
         sessionStorage.removeItem("accessToken");

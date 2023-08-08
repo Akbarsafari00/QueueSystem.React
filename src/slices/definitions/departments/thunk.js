@@ -11,11 +11,10 @@ import {
 import {reset} from "list.js";
 
 
-export const filterDepartments = () => async (dispatch) => {
+export const filterDepartments = ({search}) => async (dispatch) => {
     try {
         let response;
-
-        response = getDepartmentsFilter();
+        response = getDepartmentsFilter({search});
 
         const data = await response;
 

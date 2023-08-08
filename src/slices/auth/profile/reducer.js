@@ -1,29 +1,30 @@
-import { createSlice } from "@reduxjs/toolkit";
+import {createSlice} from "@reduxjs/toolkit";
 
 export const initialState = {
-  error: "",
-  success: "",
-  user: {}
+    error: "",
+    success: "",
+    user: {}
 };
 
 const ProfileSlice = createSlice({
-  name: "Profile",
-  initialState,
-  reducers: { 
-    profileSuccess(state, action) {
-      state.success = (action.payload);
-      state.user = action.payload.user
+    name: "Profile",
+    initialState,
+    reducers: {
+        profileSuccess(state, action) {
+            state.success = (action.payload);
+            state.user = action.payload.user
+            
+        },
+        profileError(state, action) {
+            state.error = action.payload
+        },
+        editProfileChange(state) {
+            state = {...state};
+        },
+        resetProfileFlagChange(state) {
+            state.success = null
+        }
     },
-    profileError(state, action) {
-        state.error = action.payload
-    },
-    editProfileChange(state){
-      state = { ...state };
-    },
-    resetProfileFlagChange(state){
-      state.success = null
-    }
-  },
 });
 
 export const {

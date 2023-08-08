@@ -5,22 +5,23 @@ import {useDispatch} from "react-redux";
 
 import {useAuth} from "../Components/Hooks/UserHooks";
 
-import {logoutUser} from "../slices/auth/login/thunk";
-import { getProfile } from "../slices/thunks";
+import {logoutUser, setUserLoggedIn} from "../slices/auth/login/thunk";
+import {getProfile} from "../slices/thunks";
 
 const AuthProtected = (props) => {
+
     const dispatch = useDispatch();
-    const {accessToken} = useAuth();
+    const {accessToken, isLoggedIn} = useAuth();
 
     useEffect(() => {
-        console.log(accessToken)
         if (accessToken) {
             setAuthorization(accessToken);
+            dispatch(setUserLoggedIn());
             dispatch(getProfile());
         } else {
             dispatch(logoutUser());
         }
-    }, [accessToken, dispatch]);
+    }, [accessToken]);
 
     /*
       Navigate is un-auth access protected routes via url
@@ -31,7 +32,6 @@ const AuthProtected = (props) => {
             <Navigate to={{pathname: "/login", state: {from: props.location}}}/>
         );
     }
-
     return <>{props.children}</>;
 };
 
