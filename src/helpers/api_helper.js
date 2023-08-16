@@ -129,3 +129,18 @@ export const getDepartmentDetail = (id) => apiClient.get(`/Department/${id}/Deta
 export const postDepartmentCreate = (data) => apiClient.create(`/Department/Create`, data)
 export const putDepartmentUpdate = (data) => apiClient.put(`/Department/Update`, data)
 export const deleteDepartmentDelete = (id) => apiClient.delete(`/Department/${id}/Delete`)
+
+
+export const fetchDepartmentUnitFilter = ({search}) => {
+    let query = "";
+    console.log(search)
+    if (search){
+        query += `search=${search}`;
+    }
+
+    return apiClient.get(`/DepartmentUnit/Filter?` + query);
+}
+export const fetchDepartmentUnitDetail = (id) => apiClient.get(`/DepartmentUnit/${id}/Detail`)
+export const postDepartmentUnitCreate = (data) => apiClient.create(`/DepartmentUnit/Create`, data)
+export const putDepartmentUnitUpdate = (data) => apiClient.put(`/DepartmentUnit/Update`, data)
+export const deleteDepartmentUnitDelete = (id) => apiClient.delete(`/DepartmentUnit/${id}/Delete`)

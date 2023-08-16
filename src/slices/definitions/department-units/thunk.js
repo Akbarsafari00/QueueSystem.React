@@ -3,18 +3,18 @@
 // action
 import {fetchError, fetchItemsSuccess, fetchItemSuccess, resetState} from "./reducer";
 import {
-    deleteDepartmentDelete,
-    getDepartmentsFilter,
-    postDepartmentCreate,
-    putDepartmentUpdate
+    deleteDepartmentUnitDelete, fetchDepartmentUnitDetail,
+    fetchDepartmentUnitFilter,
+    postDepartmentUnitCreate,
+    putDepartmentUnitUpdate
 } from "../../../helpers/api_helper";
 import {reset} from "list.js";
 
 
-export const filterDepartments = ({search}) => async (dispatch) => {
+export const filterDepartmentUnits = ({search}) => async (dispatch) => {
     try {
         let response;
-        response = getDepartmentsFilter({search});
+        response = fetchDepartmentUnitFilter({search});
 
         const data = await response;
 
@@ -28,11 +28,11 @@ export const filterDepartments = ({search}) => async (dispatch) => {
 };
 
 
-export const getDepartmentDetail = (id) => async (dispatch) => {
+export const getDepartmentUnitDetail = (id) => async (dispatch) => {
     try {
         let response;
 
-        response = getDepartmentDetail(id);
+        response = fetchDepartmentUnitDetail(id);
 
         const data = await response;
 
@@ -46,11 +46,11 @@ export const getDepartmentDetail = (id) => async (dispatch) => {
 };
 
 
-export const createDepartment = (payload) => async (dispatch) => {
+export const createDepartmentUnit = (payload) => async (dispatch) => {
 
     try {
         let response;
-        response = postDepartmentCreate(payload);
+        response = postDepartmentUnitCreate(payload);
 
         const data = await response;
 
@@ -66,11 +66,11 @@ export const createDepartment = (payload) => async (dispatch) => {
     }
 };
 
-export const updateDepartment = (payload) => async (dispatch) => {
+export const updateDepartmentUnit = (payload) => async (dispatch) => {
     try {
         let response;
 
-        response = putDepartmentUpdate(payload);
+        response = putDepartmentUnitUpdate(payload);
 
         const data = await response;
 
@@ -88,11 +88,11 @@ export const updateDepartment = (payload) => async (dispatch) => {
 };
 
 
-export const deleteDepartment = (id) => async (dispatch) => {
+export const deleteDepartmentUnit = (id) => async (dispatch) => {
     try {
         let response;
 
-        response = deleteDepartmentDelete(id);
+        response = deleteDepartmentUnitDelete(id);
 
         const data = await response;
 

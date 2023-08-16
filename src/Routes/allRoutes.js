@@ -31,6 +31,7 @@ import DashboardQueue from '../pages/Dashboards/dashboard1';
 import Login from "../pages/Authentication/Login";
 import Logout from "../pages/Authentication/Logout";
 import DepartmentPage from "../pages/Definitions/Departments/DepartmentPage";
+import DepartmentUnitPage from "../pages/Definitions/DepartmentUnits/DepartmentUnitPage";
 
 
 // Landing Index
@@ -46,6 +47,10 @@ const authProtectedRoutes = [
     {
         path: "/definitions/departments",
         component: <DepartmentPage/>,
+    },
+    {
+        path: "/definitions/department-units",
+        component: <DepartmentUnitPage/>,
     },
     {
         path: "/",

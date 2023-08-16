@@ -8,8 +8,8 @@ export const initialState = {
     selectedItem: null
 };
 
-const DepartmentSlice = createSlice({
-    name: "Department",
+const DepartmentUnitSlice = createSlice({
+    name: "DepartmentUnit",
     initialState,
     reducers: {
         loading(state) {
@@ -43,6 +43,6 @@ export const {
     fetchItemsSuccess,
     fetchError,
     resetState
-} = DepartmentSlice.actions
+} = DepartmentUnitSlice.actions
 
-export default DepartmentSlice.reducer;
+export default DepartmentUnitSlice.reducer;

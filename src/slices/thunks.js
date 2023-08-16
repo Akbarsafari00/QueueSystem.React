@@ -5,4 +5,5 @@ export * from "./layouts/thunk";
 export * from "./auth/login/thunk";
 export * from "./auth/profile/thunk";
 export * from "./definitions/departments/thunk";
+export * from "./definitions/department-units/thunk";
 

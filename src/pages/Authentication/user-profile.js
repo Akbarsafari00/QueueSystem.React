@@ -39,7 +39,7 @@ const UserProfile = () => {
 
   const selectLayoutState = (state) => state.Profile;
   const userprofileData = createSelector(
-    selectLayoutState,
+      (state) => state.Profile,
     (state) => ({
       user: state.user,
       success: state.success,

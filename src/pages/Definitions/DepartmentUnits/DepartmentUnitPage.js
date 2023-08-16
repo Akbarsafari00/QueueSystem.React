@@ -5,40 +5,32 @@ import {
     Row,
     Col,
     Card,
-    Alert,
     CardBody,
     CardHeader,
-    ListGroup,
-    ListGroupItem,
-    Button,
-    Label,
-    Input,
-    FormFeedback,
-    Form, ButtonGroup, Modal, ModalBody,
 } from "reactstrap";
 import BreadCrumb from "../../../Components/Common/BreadCrumb";
 import {useDispatch, useSelector} from "react-redux";
-import {filterDepartments} from "../../../slices/definitions/departments/thunk";
+import {filterDepartmentUnits} from "../../../slices/definitions/department-units/thunk";
 import {createSelector} from "reselect";
 import {useAuth} from "../../../Components/Hooks/UserHooks";
 import XListItem from "../../../Components/XList/XListItem";
 import XList from "../../../Components/XList/XList";
-import DepartmentCreateModal from "../../../Components/Modals/Departments/DepartmentCreateModal";
-import DepartmentDeleteModal from "../../../Components/Modals/Departments/DepartmentDeleteModal";
-import DepartmentUpdateModal from "../../../Components/Modals/Departments/DepartmentUpdateModal";
+import DepartmentUnitCreateModal from "../../../Components/Modals/DepartmentUnits/DepartmentCreateModal";
+import DepartmentUnitDeleteModal from "../../../Components/Modals/DepartmentUnits/DepartmentDeleteModal";
+import DepartmentUnitUpdateModal from "../../../Components/Modals/DepartmentUnits/DepartmentUpdateModal";
 
-const DepartmentPage = () => {
+const DepartmentUnitPage = () => {
 
 
     const departmentSelector = createSelector(
-        (state) => state.Department,
+        (state) => state.DepartmentUnit,
         (state) => ({
-            departments: state.items,
+            units: state.items,
         })
     );
     // Inside your component
     const {
-        departments,
+        units,
     } = useSelector(departmentSelector);
 
     const dispatch = useDispatch();
@@ -55,7 +47,7 @@ const DepartmentPage = () => {
 
     useEffect(() => {
         if (isLoggedIn) {
-            dispatch(filterDepartments({search}));
+            dispatch(filterDepartmentUnits({search}));
         }
     }, [accessToken, isLoggedIn, search]);
 
@@ -67,21 +59,21 @@ const DepartmentPage = () => {
         }
     }
 
-    document.title = "مدیریت دپارتمان ها";
+    document.title = "مدیریت بخش ها";
     return (
         <React.Fragment>
             <div className="page-content">
                 <Container fluid>
-                    <BreadCrumb title="تعاریف" pageTitle="دپارتمان ها"/>
+                    <BreadCrumb title="تعاریف" pageTitle="بخش ها"/>
                     <Row>
-                        <Col md={4}>
+                        <Col md={8}>
                             <div className={"d-flex mb-4"}>
                                 <button className={"btn btn-primary"} onClick={_ => setIsShowCreateModal(true)}>افرودن
                                 </button>
                             </div>
                             <Card>
                                 <CardHeader>
-                                    <h4 className="card-title mb-0">مدیریت دپارتمان ها</h4>
+                                    <h4 className="card-title mb-0">مدیریت بخش ها</h4>
                                 </CardHeader>
                                 <CardBody className={"p-4"}>
                                     <div id="users">
@@ -91,7 +83,7 @@ const DepartmentPage = () => {
                                                 searchable={true}
                                                 onSearchChange={onSearchChange}
                                             >
-                                                {departments.map(department => {
+                                                {units.map(department => {
                                                     return <XListItem
                                                         key={department.id}
                                                         onDeleteClick={() => {
@@ -112,6 +104,12 @@ const DepartmentPage = () => {
                                                                         : {department.id}</small>
                                                                 </div>
                                                             </div>
+                                                            <div className={"flex-grow-1"}>
+                                                                <b className={""}><small className={"text-muted"}>شناسه یکتا : </small>{department.uniqueNumber}</b>
+                                                            </div>
+                                                            <div className={"flex-grow-1"}>
+                                                                <b className={""}><small className={"text-muted"}>دپارتمان : </small>{department.department.title}</b>
+                                                            </div>
 
                                                         </div>
                                                     </XListItem>
@@ -123,18 +121,20 @@ const DepartmentPage = () => {
                                 </CardBody>
                             </Card>
                         </Col>
+                        <Col md={8}>
+                        </Col>
                     </Row>
 
                 </Container>
             </div>
-            <DepartmentCreateModal isOpen={isShowCreateModal}
+            <DepartmentUnitCreateModal isOpen={isShowCreateModal}
                                    onToggle={() => {
                                        setIsShowCreateModal(false)
                                    }}
                                    onSuccess={() => {
                                        setIsShowCreateModal(false)
                                    }}/>
-            <DepartmentDeleteModal isOpen={isShowDeleteModal}
+            <DepartmentUnitDeleteModal isOpen={isShowDeleteModal}
                                    item={selectedItem}
                                    onToggle={() => {
                                        setIsShowDeleteModal(false)
@@ -143,7 +143,7 @@ const DepartmentPage = () => {
                                        setIsShowDeleteModal(false)
                                    }}/>
 
-            <DepartmentUpdateModal isOpen={isShowUpdateModal}
+            <DepartmentUnitUpdateModal isOpen={isShowUpdateModal}
                                    item={selectedItem}
                                    onToggle={() => {
                                        setIsShowUpdateModal(false)
@@ -155,4 +155,4 @@ const DepartmentPage = () => {
     );
 };
 
-export default DepartmentPage;
+export default DepartmentUnitPage;
