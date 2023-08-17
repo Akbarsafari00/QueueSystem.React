@@ -4,17 +4,16 @@ import { combineReducers } from "redux";
 import LayoutReducer from "./layouts/reducer";
 
 // Authentication
-import LoginReducer from "./auth/login/reducer";
-import ProfileReducer from "./auth/profile/reducer";
+import AuthReducer from "./auth/reducer";
 import DepartmentReducer from "./definitions/departments/reducer";
 import DepartmentUnitReducer from "./definitions/department-units/reducer";
 
 
 
+
 const rootReducer = combineReducers({
     Layout: LayoutReducer,
-    Login: LoginReducer,
-    Profile: ProfileReducer,
+    Auth: AuthReducer,
     Department: DepartmentReducer,
     DepartmentUnit: DepartmentUnitReducer
 });

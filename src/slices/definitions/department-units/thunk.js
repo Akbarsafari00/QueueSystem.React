@@ -9,6 +9,7 @@ import {
     putDepartmentUnitUpdate
 } from "../../../helpers/api_helper";
 import {reset} from "list.js";
+import {logoutUser} from "../../auth/thunk";
 
 
 export const filterDepartmentUnits = ({search}) => async (dispatch) => {
@@ -16,6 +17,8 @@ export const filterDepartmentUnits = ({search}) => async (dispatch) => {
         let response;
         response = fetchDepartmentUnitFilter({search});
 
+        
+        
         const data = await response;
 
         if (data) {
@@ -23,7 +26,10 @@ export const filterDepartmentUnits = ({search}) => async (dispatch) => {
         }
 
     } catch (error) {
-        dispatch(fetchError(error));
+        if (error.status === 401){
+            dispatch(logoutUser());
+        }
+        dispatch(fetchError(error.message));
     }
 };
 

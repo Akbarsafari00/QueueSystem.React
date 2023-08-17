@@ -21,7 +21,8 @@ axios.interceptors.response.use(
     function (error) {
         // Any status codes that falls outside the range of 2xx cause this function to trigger
         let message;
-        switch (error.status) {
+        
+        switch (error.response.status) {
             case 500:
                 message = "Internal Server Error";
                 break;
@@ -34,7 +35,8 @@ axios.interceptors.response.use(
             default:
                 message = error.message || error;
         }
-        return Promise.reject(message);
+        
+        return Promise.reject({status:error.response.status,message:message});
     }
 );
 /**
@@ -98,7 +100,16 @@ class APIClient {
 }
 
 const getAccessToken = () => {
-    const user = sessionStorage.getItem("accessToken");
+    const token = sessionStorage.getItem("accessToken");
+    if (!token) {
+        return null;
+    } else {
+        return token;
+    }
+};
+
+const getUser = () => {
+    const user = sessionStorage.getItem("user");
     if (!user) {
         return null;
     } else {
@@ -106,7 +117,7 @@ const getAccessToken = () => {
     }
 };
 
-export {APIClient, setAuthorization, getAccessToken};
+export {APIClient, setAuthorization, getAccessToken,getUser};
 
 
 const apiClient = new APIClient();
@@ -118,7 +129,6 @@ export const getAuthProfile = () => apiClient.get(url.GET_AUTH_PROFILE)
 
 export const getDepartmentsFilter = ({search}) => {
     let query = "";
-    console.log(search)
     if (search){
         query += `search=${search}`;
     }
@@ -133,7 +143,6 @@ export const deleteDepartmentDelete = (id) => apiClient.delete(`/Department/${id
 
 export const fetchDepartmentUnitFilter = ({search}) => {
     let query = "";
-    console.log(search)
     if (search){
         query += `search=${search}`;
     }

@@ -1,18 +1,7 @@
 import React, {useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import {
-    Col,
-    Form,
-    Input,
-    Label,
-    Modal,
-    Row,
-    FormFeedback,
-    Button,
-    ModalBody,
-    FormGroup,
-    ModalHeader,
-    ButtonGroup
+    Col, Form, Input, Label, Modal, Row, FormFeedback, Button, ModalBody, FormGroup, ModalHeader, ButtonGroup
 } from 'reactstrap';
 import {useFormik} from "formik";
 import * as Yup from "yup";
@@ -26,46 +15,31 @@ import {useAuth} from "../../Hooks/UserHooks";
 const DepartmentUnitCreateModal = ({isOpen, onToggle, onSuccess, onError}) => {
 
     const dispatch = useDispatch();
-    const {accessToken, isLoggedIn} = useAuth();
-    const departmentUnitState = useSelector(
-        createSelector(
-            (state) => state.DepartmentUnit,
-            (state) => ({
-                loading: state.loading,
-                success: state.success,
-            })
-        ));
-
-    const departmentState = useSelector(
-        createSelector(
-            (state) => state.Department,
-            (state) => ({
-                items: state.items,
-            })
-        ));
-
     
-    useEffect(()=>{
-        
-        if (isOpen){
+    const departmentUnitState = useSelector(createSelector((state) => state.DepartmentUnit, (state) => ({
+        loading: state.loading, success: state.success,
+    })));
+
+    const departmentState = useSelector(createSelector((state) => state.Department, (state) => ({
+        items: state.items,
+    })));
+
+    const {isAuthenticated} = useAuth();
+
+    useEffect(() => {
+
+        if (isOpen && isAuthenticated) {
             validation.resetForm();
-
-            if (isLoggedIn){
-                dispatch(filterDepartments({search:""}))
-            }
+            dispatch(filterDepartments({search: ""}))
         }
-        
-        
-    },[isLoggedIn,isOpen])
+    }, [isOpen,isAuthenticated])
     
-    const validation = useFormik({
-        // enableReinitialize : use this flag when initial values needs to be changed
-        enableReinitialize: true,
 
-        initialValues: {
+    const validation = useFormik({
+        enableReinitialize: true, initialValues: {
             title: "",
-            departmentId: "",
-            uniqueNumber: "",
+            departmentId: (departmentState.items.length > 0) ? departmentState.items[0].id : "",
+            uniqueNumber: 0,
         }, validationSchema: Yup.object({
             title: Yup.string().required("عنوان اجباری میباشد"),
             departmentId: Yup.string().required("دپارتمان اجباری میباشد"),
@@ -73,14 +47,11 @@ const DepartmentUnitCreateModal = ({isOpen, onToggle, onSuccess, onError}) => {
             const result = await dispatch(createDepartmentUnit(values));
             if (result) {
                 onSuccess(result)
-                dispatch(filterDepartmentUnits({search: ""}));
             } else {
                 onError();
             }
         },
     });
-
-    document.title = "Validation | Velzon - React Admin & Dashboard Template";
 
     return (<React.Fragment>
             <Modal isOpen={isOpen} backdrop={true} toggle={onToggle}>
@@ -139,27 +110,19 @@ const DepartmentUnitCreateModal = ({isOpen, onToggle, onSuccess, onError}) => {
                                 <FormGroup className="mb-3">
                                     <Label htmlFor="validationCustom01">دپارتمان</Label>
                                     <select
-                                        className="form-select mb-3" 
+                                        className="form-select mb-3"
                                         aria-label="Default select example"
                                         name="departmentId"
-                                        placeholder=""
-                                        type="text"
                                         id="departmentId"
                                         onChange={validation.handleChange}
                                         onBlur={validation.handleBlur}
-                                        value={validation.values.departmentId || ""}
-                                        invalid={!!(validation.touched.departmentId && validation.errors.departmentId)}
-                                    
-                                        >
-                                        {departmentState.items.map(i=>{
+                                        value={validation.values.departmentId || ""}>
+                                        {departmentState.items.map(i => {
                                             return <option key={i.id} value={i.id}>{i.title}</option>
                                         })}
-                                        
                                     </select>
-                                    {validation.touched.departmentId && validation.errors.departmentId ? (
-                                        <FormFeedback type="invalid">
-                                            {validation.errors.departmentId}
-                                        </FormFeedback>) : null}
+                                    {validation.touched.departmentId && validation.errors.departmentId ? (<FormFeedback
+                                        type="invalid">{validation.errors.departmentId}</FormFeedback>) : null}
                                 </FormGroup>
                             </Col>
                         </Row>
@@ -176,8 +139,7 @@ const DepartmentUnitCreateModal = ({isOpen, onToggle, onSuccess, onError}) => {
                     </Form>
                 </ModalBody>
             </Modal>
-        </React.Fragment>
-    );
+        </React.Fragment>);
 };
 
 export default DepartmentUnitCreateModal;

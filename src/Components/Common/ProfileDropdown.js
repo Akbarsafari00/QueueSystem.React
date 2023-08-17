@@ -11,18 +11,18 @@ import { useAuth } from '../Hooks/UserHooks';
 const ProfileDropdown = () => {
 
 
-    var {user} = useAuth();
+    const {user , status} = useAuth();
 
-    const [userName, setUserName] = useState("Admin");
+    const [userName, setUserName] = useState("");
+    const [fullName, setFullname] = useState("");
 
     useEffect(() => {
-        if (sessionStorage.getItem("authUser")) {
-            const obj = JSON.parse(sessionStorage.getItem("authUser"));
-            setUserName(process.env.REACT_APP_DEFAULTAUTH === "fake" ? obj.username === undefined ? user.first_name ? user.first_name : obj.data.first_name : "Admin" || "Admin" :
-                process.env.REACT_APP_DEFAULTAUTH === "firebase" ? obj.email && obj.email : "Admin"
-            );
+        if (status === "authenticated") {
+            
+            setUserName(user.userName);
+            setFullname(`${user.firstName ?? "بدون"} ${user.lastName ?? "نام"}`);
         }
-    }, [userName, user]);
+    }, [status, user]);
 
     //Dropdown Toggle
     const [isProfileDropdown, setIsProfileDropdown] = useState(false);
@@ -37,13 +37,13 @@ const ProfileDropdown = () => {
                         <img className="rounded-circle header-profile-user" src={avatar1}
                             alt="Header Avatar" />
                         <span className="text-start ms-xl-2">
-                            <span className="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{user.userName}</span>
-                            <span className="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">{user.firstName} {user.lastName}</span>
+                            <span className="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{userName}</span>
+                            <span className="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">{fullName}</span>
                         </span>
                     </span>
                 </DropdownToggle>
                 <DropdownMenu className="dropdown-menu-end">
-                    <h6 className="dropdown-header">خوش اومدی  {user.userName}!</h6>
+                    <h6 className="dropdown-header">خوش اومدی  {userName}!</h6>
                     <DropdownItem className='p-0'>
                         <Link to={process.env.PUBLIC_URL + "/profile"} className="dropdown-item">
                             <i className="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i>

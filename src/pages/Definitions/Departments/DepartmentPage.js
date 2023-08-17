@@ -50,14 +50,11 @@ const DepartmentPage = () => {
 
     const [selectedItem, setSelectedItem] = useState(null);
 
-    const {accessToken, isLoggedIn} = useAuth();
 
 
     useEffect(() => {
-        if (isLoggedIn) {
             dispatch(filterDepartments({search}));
-        }
-    }, [accessToken, isLoggedIn, search]);
+    }, [search]);
 
     function onSearchChange(value) {
         if (value.length >= 3) {

@@ -5,14 +5,14 @@ import ParticlesAuth from "../AuthenticationInner/ParticlesAuth";
 //redux
 import { useSelector, useDispatch } from "react-redux";
 
-import { Link } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import withRouter from "../../Components/Common/withRouter";
 // Formik validation
 import * as Yup from "yup";
 import { useFormik } from "formik";
 
 // actions
-import { loginUser, socialLogin, resetLoginFlag } from "../../slices/thunks";
+import { loginUser} from "../../slices/thunks";
 
 import logoLight from "../../assets/images/logo-light.png";
 import { createSelector } from 'reselect';
@@ -20,35 +20,32 @@ import { createSelector } from 'reselect';
 
 const Login = (props) => {
     const dispatch = useDispatch();
-
+    const navigate = useNavigate();
+    
     const selectLayoutState = (state) => state;
-    const loginpageData = createSelector(
+    const authState = createSelector(
         selectLayoutState,
         (state) => ({
-            error: state.Login.error,
-            loading: state.Login.loading,
-            errorMsg: state.Login.errorMsg,
+            error: state.Auth.error,
+            loading: state.Auth.loading,
+            message: state.Auth.message,
+            status : state.Auth.status,
+            user : state.Auth.user,
         })
     );
     // Inside your component
     const {
-        user, error, loading, errorMsg
-    } = useSelector(loginpageData);
+        error, loading, message,status , user
+    } = useSelector(authState);
 
+    useEffect(()=>{
+        if (status === "authenticated" && user){
+            navigate("/dashboard");
+        }
+    },[status , user])
+    
     const [userLogin, setUserLogin] = useState([]);
     const [passwordShow, setPasswordShow] = useState(false);
-
-
-    useEffect(() => {
-        if (user && user) {
-            const updatedUserData = process.env.REACT_APP_DEFAULTAUTH === "firebase" ? user.multiFactor.user.email : user.email;
-            const updatedUserPassword = process.env.REACT_APP_DEFAULTAUTH === "firebase" ? "" : user.confirm_password;
-            setUserLogin({
-                email: updatedUserData,
-                password: updatedUserPassword
-            });
-        }
-    }, [user]);
 
     const validation = useFormik({
         // enableReinitialize : use this flag when initial values needs to be changed
@@ -63,7 +60,8 @@ const Login = (props) => {
             password: Yup.string().required("Please Enter Your Password"),
         }),
         onSubmit: (values) => {
-            dispatch(loginUser(values, props.router.navigate));
+            dispatch(loginUser(values));
+            
         }
     });
 
@@ -81,12 +79,12 @@ const Login = (props) => {
 
 
     useEffect(() => {
-        if (errorMsg) {
+        if (message) {
             setTimeout(() => {
                 dispatch(resetLoginFlag());
             }, 3000);
         }
-    }, [dispatch, errorMsg]);
+    }, [dispatch, message]);
     document.title = "Basic SignIn | Velzon - React Admin & Dashboard Template";
     return (
         <React.Fragment>

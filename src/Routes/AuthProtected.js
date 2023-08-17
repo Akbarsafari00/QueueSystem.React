@@ -1,37 +1,33 @@
 import React, {useEffect} from "react";
-import {Navigate, Route} from "react-router-dom";
+import {Navigate, Route, useNavigate} from "react-router-dom";
 import {setAuthorization} from "../helpers/api_helper";
 import {useDispatch} from "react-redux";
 
 import {useAuth} from "../Components/Hooks/UserHooks";
 
-import {logoutUser, setUserLoggedIn} from "../slices/auth/login/thunk";
+import {logoutUser} from "../slices/auth/thunk";
 import {getProfile} from "../slices/thunks";
+import {setAuth} from "../slices/auth/reducer";
 
 const AuthProtected = (props) => {
 
     const dispatch = useDispatch();
-    const {accessToken, isLoggedIn} = useAuth();
-
+    const navigate = useNavigate();
+    const {accessToken, status,user} = useAuth();
+    
+        
     useEffect(() => {
-        if (accessToken) {
+        console.log(status)
+        console.log(accessToken != null && status === "authenticated")
+        if (accessToken != null && status === "authenticated") {
             setAuthorization(accessToken);
-            dispatch(setUserLoggedIn());
-            dispatch(getProfile());
-        } else {
-            dispatch(logoutUser());
+        }  else if(status === "unauthenticated") {
+            navigate("/logout")
         }
-    }, [accessToken]);
+    }, [accessToken,status]);
+    
+    
 
-    /*
-      Navigate is un-auth access protected routes via url
-      */
-
-    if (!accessToken) {
-        return (
-            <Navigate to={{pathname: "/login", state: {from: props.location}}}/>
-        );
-    }
     return <>{props.children}</>;
 };
 

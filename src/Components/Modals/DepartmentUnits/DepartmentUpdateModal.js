@@ -9,7 +9,7 @@ import {filterDepartmentUnits, updateDepartmentUnit} from "../../../slices/defin
 import {useAuth} from "../../Hooks/UserHooks";
 import {filterDepartments} from "../../../slices/definitions/departments/thunk";
 
-const DepartmentUnitUpdateModal = ({isOpen,item, onToggle, onSuccess, onError}) => {
+const DepartmentUnitUpdateModal = ({isOpen, item, onToggle, onSuccess, onError}) => {
 
     const dispatch = useDispatch();
 
@@ -29,21 +29,18 @@ const DepartmentUnitUpdateModal = ({isOpen,item, onToggle, onSuccess, onError}) 
             })
         ));
 
-    const {accessToken, isLoggedIn} = useAuth();
-    useEffect(()=>{
+    const {isAuthenticated} = useAuth();
+    useEffect(() => {
 
-        if (isOpen){
+        if (isOpen && isAuthenticated) {
             validation.resetForm();
-
-            if (isLoggedIn){
-                dispatch(filterDepartments({search:""}))
-            }
+            dispatch(filterDepartments({search: ""}))
         }
-    },[isLoggedIn,isOpen])
+    }, [isOpen,isAuthenticated])
     const validation = useFormik({
         // enableReinitialize : use this flag when initial values needs to be changed
         enableReinitialize: true,
-        
+
         initialValues: {
             id: item?.id || "",
             title: item?.title || "",
@@ -57,7 +54,6 @@ const DepartmentUnitUpdateModal = ({isOpen,item, onToggle, onSuccess, onError}) 
             const result = await dispatch(updateDepartmentUnit(values));
             if (result) {
                 onSuccess(result)
-                dispatch(filterDepartmentUnits({search:""}));
             } else {
                 onError();
             }
@@ -94,7 +90,7 @@ const DepartmentUnitUpdateModal = ({isOpen,item, onToggle, onSuccess, onError}) 
                             <FormGroup className="mb-3">
                                 <Label htmlFor="validationCustom01">عنوان</Label>
                                 <Input
-                                    
+
                                     name="title"
                                     placeholder=""
                                     type="text"
@@ -146,9 +142,9 @@ const DepartmentUnitUpdateModal = ({isOpen,item, onToggle, onSuccess, onError}) 
                                     onBlur={validation.handleBlur}
                                     value={validation.values.departmentId || ""}
 
-                                    >
-                                    {departmentState.items.map(i=>{
-                                        return <option value={i.id}>{i.title}</option>
+                                >
+                                    {departmentState.items.map(i => {
+                                        return <option key={i.id} value={i.id}>{i.title}</option>
                                     })}
 
                                 </select>

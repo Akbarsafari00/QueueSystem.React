@@ -23,7 +23,7 @@ const DepartmentUnitSlice = createSlice({
         fetchItemSuccess(state, action) {
             state.success = (action.payload);
             state.loading = false;
-            state.selectedItem = action.payload.item
+            state.selectedItem = action.payload
         },
         fetchError(state, action) {
             state.success = false;

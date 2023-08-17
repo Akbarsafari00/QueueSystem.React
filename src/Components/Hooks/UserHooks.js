@@ -1,22 +1,34 @@
 import {useEffect, useState} from "react";
-import {getAccessToken, setAuthorization} from "../../helpers/api_helper";
+import {getAccessToken, getUser, setAuthorization} from "../../helpers/api_helper";
 import {useDispatch, useSelector} from "react-redux";
 import {getProfile} from "../../slices/thunks";
 import {createSelector} from 'reselect';
+import {setAuth} from "../../slices/auth/reducer";
 
 const useAuth = () => {
+    const dispatch = useDispatch();
     const accessToken = getAccessToken();
+    const user = getUser();
 
-    const profileSelector = createSelector(
-        (state) => state,
+    
+    useEffect(() => {
+        dispatch(setAuth({
+            accessToken,
+            status: (user != null && accessToken != null)?"authenticated":"unauthenticated",
+            user
+        }))
+    }, [])
+
+    return useSelector(createSelector(
+        (state) => state.Auth,
         (state) => ({
-            user: state.Profile.user,
-            isLoggedIn: state.Login.isLoggedIn
+            user: state.user,
+            status: state.status,
+            accessToken: state.accessToken,
+            isAuthenticated : (state.status === "authenticated")
         })
-    );
-// Inside your component
-    const {user, isLoggedIn} = useSelector(profileSelector);
-    return {accessToken, user, isLoggedIn};
+    ));
+
 };
 
 export {useAuth};

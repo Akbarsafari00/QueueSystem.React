@@ -42,15 +42,13 @@ const DepartmentUnitPage = () => {
 
     const [selectedItem, setSelectedItem] = useState(null);
 
-    const {accessToken, isLoggedIn} = useAuth();
-
+    const {isAuthenticated} = useAuth();
 
     useEffect(() => {
-        if (isLoggedIn) {
+        if (isAuthenticated) {
             dispatch(filterDepartmentUnits({search}));
         }
-    }, [accessToken, isLoggedIn, search]);
-
+    }, [search, isAuthenticated]);
     function onSearchChange(value) {
         if (value.length >= 3) {
             setSearch(value);
@@ -105,10 +103,12 @@ const DepartmentUnitPage = () => {
                                                                 </div>
                                                             </div>
                                                             <div className={"flex-grow-1"}>
-                                                                <b className={""}><small className={"text-muted"}>شناسه یکتا : </small>{department.uniqueNumber}</b>
+                                                                <b className={""}><small className={"text-muted"}>شناسه
+                                                                    یکتا : </small>{department.uniqueNumber}</b>
                                                             </div>
                                                             <div className={"flex-grow-1"}>
-                                                                <b className={""}><small className={"text-muted"}>دپارتمان : </small>{department.department.title}</b>
+                                                                <b className={""}><small className={"text-muted"}>دپارتمان
+                                                                    : </small>{department.department.title}</b>
                                                             </div>
 
                                                         </div>
@@ -128,29 +128,32 @@ const DepartmentUnitPage = () => {
                 </Container>
             </div>
             <DepartmentUnitCreateModal isOpen={isShowCreateModal}
-                                   onToggle={() => {
-                                       setIsShowCreateModal(false)
-                                   }}
-                                   onSuccess={() => {
-                                       setIsShowCreateModal(false)
-                                   }}/>
+                                       onToggle={() => {
+                                           setIsShowCreateModal(false);
+                                       }}
+                                       onSuccess={() => {
+                                           setIsShowCreateModal(false);
+                                           dispatch(filterDepartmentUnits({search: ""}));
+                                       }}/>
             <DepartmentUnitDeleteModal isOpen={isShowDeleteModal}
-                                   item={selectedItem}
-                                   onToggle={() => {
-                                       setIsShowDeleteModal(false)
-                                   }}
-                                   onSuccess={() => {
-                                       setIsShowDeleteModal(false)
-                                   }}/>
+                                       item={selectedItem}
+                                       onToggle={() => {
+                                           setIsShowDeleteModal(false);
+                                       }}
+                                       onSuccess={() => {
+                                           setIsShowDeleteModal(false);
+                                           dispatch(filterDepartmentUnits({search: ""}));
+                                       }}/>
 
             <DepartmentUnitUpdateModal isOpen={isShowUpdateModal}
-                                   item={selectedItem}
-                                   onToggle={() => {
-                                       setIsShowUpdateModal(false)
-                                   }}
-                                   onSuccess={() => {
-                                       setIsShowUpdateModal(false)
-                                   }}/>
+                                       item={selectedItem}
+                                       onToggle={() => {
+                                           setIsShowUpdateModal(false);
+                                       }}
+                                       onSuccess={() => {
+                                           setIsShowUpdateModal(false);
+                                           dispatch(filterDepartmentUnits({search: ""}));
+                                       }}/>
         </React.Fragment>
     );
 };

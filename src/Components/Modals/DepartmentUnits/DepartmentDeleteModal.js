@@ -12,7 +12,16 @@ import {useAuth} from "../../Hooks/UserHooks";
 const DepartmentUnitDeleteModal = ({isOpen, item, onToggle, onSuccess, onError}) => {
 
     const dispatch = useDispatch();
+    const {isAuthenticated} = useAuth();
 
+    useEffect(() => {
+
+        if (isOpen && isAuthenticated) {
+            validation.resetForm();
+            dispatch(filterDepartments({search: ""}))
+        }
+    }, [isOpen,isAuthenticated])
+    
     const departmentUnitState = useSelector(
         createSelector(
             (state) => state.DepartmentUnit,
@@ -28,12 +37,7 @@ const DepartmentUnitDeleteModal = ({isOpen, item, onToggle, onSuccess, onError})
                 items: state.items,
             })
         ));
-    const {accessToken, isLoggedIn} = useAuth();
-    useEffect(()=>{
-        if (isLoggedIn){
-            dispatch(filterDepartments({search:""}))
-        }
-    },[isLoggedIn])
+    
     const validation = useFormik({
         // enableReinitialize : use this flag when initial values needs to be changed
         enableReinitialize: true,
@@ -51,7 +55,6 @@ const DepartmentUnitDeleteModal = ({isOpen, item, onToggle, onSuccess, onError})
             const result = await dispatch(deleteDepartmentUnit(values.id));
             if (result) {
                 onSuccess(result)
-                dispatch(filterDepartmentUnits({search: ""}));
             } else {
                 onError();
             }
@@ -147,16 +150,13 @@ const DepartmentUnitDeleteModal = ({isOpen, item, onToggle, onSuccess, onError})
                                     aria-label="Default select example"
                                     name="departmentId"
                                     placeholder=""
-                                    type="text"
                                     id="departmentId"
                                     onChange={validation.handleChange}
                                     onBlur={validation.handleBlur}
                                     value={validation.values.departmentId || ""}
-                                    invalid={!!(validation.touched.departmentId && validation.errors.departmentId)}
-
-                                    >
-                                    {departmentState.items.map(i=>{
-                                        return <option id={i.id} value={i.id}>{i.title}</option>
+                                >
+                                    {departmentState.items.map(i => {
+                                        return <option key={i.id} value={i.id}>{i.title}</option>
                                     })}
 
                                 </select>
